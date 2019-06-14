@@ -24,29 +24,8 @@ const SortableGroup = sortableElement(({ value, tasks }) => {
   );
 });
 
-const SortableContainer = sortableContainer(({ children, projects }) => {
-  const onSectionSortEnd = (sectionIndex, { oldIndex, newIndex }) => {
-    let copiedSections = Object.assign([], this.state.sections);
-    let section = copiedSections[sectionIndex];
-    section.items = arrayMove(section.items, oldIndex, newIndex);
-  };
-
-  return (
-    <ul>
-      {projects.map((value, index) => (
-        <SortableGroup
-          key={`project-`}
-          index={index}
-          value={value}
-          variant="primary"
-          tasks={value.tasks}
-          lockAxis="y"
-          onSortEnd={onSectionSortEnd.bind(this, index)}
-          lockToContainerEdges
-        />
-      ))}
-    </ul>
-  );
+const SortableContainer = sortableContainer(({ children }) => {
+  return <ol>{children}</ol>;
 });
 
 class App extends Component {
@@ -86,7 +65,22 @@ class App extends Component {
 
     return (
       <div>
-        <SortableContainer onSortEnd={this.onSortEnd} projects={projects} />
+        <SortableContainer onSortEnd={this.onSortEnd}>
+          <Container>
+            {projects.map((value, index) => (
+              <SortableGroup
+                key={`project-`}
+                index={index}
+                value={value}
+                variant="primary"
+                tasks={value.tasks}
+                lockAxis="y"
+                onSortEnd={this.onSectionSortEnd.bind(this, index)}
+                lockToContainerEdges
+              />
+            ))}
+          </Container>
+        </SortableContainer>
       </div>
     );
   }
