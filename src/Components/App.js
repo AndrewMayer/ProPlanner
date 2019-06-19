@@ -1,87 +1,99 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import { sortableContainer, sortableElement } from 'react-sortable-hoc';
-import arrayMove from 'array-move';
-import { Container } from 'semantic-ui-react';
+import React from 'react';
+import ReactDOM from 'react-dom';
+// import '@atlaskit/css-reset';
+import styled from 'styled-components';
+import { DragDropContext } from 'react-beautiful-dnd';
+import initialData from '../initial-data';
+import Column from './Column';
 
-const SortableItem = sortableElement(({ value }) => <li>{value}</li>);
+const Container = styled.div`
+  display: flex;
+`;
 
-const SortableGroup = sortableElement(({ value, tasks }) => {
-  return (
-    <div>
-      <li>{value.name}</li>
-      <Container text>
-        {tasks.map((value, index) => (
-          <SortableItem
-            key={`project-${index}`}
-            index={index}
-            value={value}
-            variant="primary"
-          />
-        ))}
-      </Container>
-    </div>
-  );
-});
+class App extends React.Component {
+  state = initialData;
 
-const SortableContainer = sortableContainer(({ children }) => {
-  return <ol>{children}</ol>;
-});
+  onDragEnd = result => {
+    const { destination, source, draggableId } = result;
 
-class App extends Component {
-  state = {
-    items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6'],
-    projects: [
-      {
-        name: 'Name Project',
-        tasks: ['Bob', 'Bill', 'Sarah', 'Doug', 'Kenny']
-      },
-      { name: 'Pet Project', tasks: ['Cat', 'Bird', 'Mouse', 'Goat', 'Dog'] },
-      {
-        name: 'Tool Project',
-        tasks: ['Hammer', 'Screwdriver', 'Wrench', 'Drill', 'Saw']
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const home = this.state.columns[source.droppableId];
+    const foreign = this.state.columns[destination.droppableId];
+
+    if (home === foreign) {
+      const newTaskIds = Array.from(home.taskIds);
+      newTaskIds.splice(source.index, 1);
+      newTaskIds.splice(destination.index, 0, draggableId);
+
+      const newColumn = {
+        ...home,
+        taskIds: newTaskIds
+      };
+
+      const newState = {
+        ...this.state,
+        columns: {
+          ...this.state.columns,
+          [newColumn.id]: newColumn
+        }
+      };
+
+      this.setState(newState);
+      console.log(`Home to home!`);
+      return;
+    }
+
+    //Moving from one column to another
+    const homeTaskIds = Array.from(home.taskIds);
+    homeTaskIds.splice(source.index, 1);
+    const newHome = {
+      ...home,
+      taskIds: homeTaskIds
+    };
+
+    const foreignTaskIds = Array.from(foreign.taskIds);
+    foreignTaskIds.splice(destination.index, 0, draggableId);
+    const newForeign = {
+      ...foreign,
+      taskIds: foreignTaskIds
+    };
+
+    const newState = {
+      ...this.state,
+      columns: {
+        ...this.state.columns,
+        [newHome.id]: newHome,
+        [newForeign.id]: newForeign
       }
-    ]
-  };
-
-  onSortEnd = ({ oldIndex, newIndex }) => {
-    this.setState(({ items }) => ({
-      items: arrayMove(items, oldIndex, newIndex)
-    }));
-  };
-
-  onSectionSortEnd = (sectionIndex, { oldIndex, newIndex }) => {
-    let copiedSections = Object.assign([], this.state.sections);
-    let section = copiedSections[sectionIndex];
-    section.items = arrayMove(section.items, oldIndex, newIndex);
-
-    this.setState({
-      sections: copiedSections
-    });
+    };
+    this.setState(newState);
+    return;
   };
 
   render() {
-    const { projects } = this.state;
-
     return (
-      <div>
-        <SortableContainer onSortEnd={this.onSortEnd}>
-          <Container>
-            {projects.map((value, index) => (
-              <SortableGroup
-                key={`project-`}
-                index={index}
-                value={value}
-                variant="primary"
-                tasks={value.tasks}
-                lockAxis="y"
-                onSortEnd={this.onSectionSortEnd.bind(this, index)}
-                lockToContainerEdges
-              />
-            ))}
-          </Container>
-        </SortableContainer>
-      </div>
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <Container>
+          {this.state.columnOrder.map((columnId, index) => {
+            const column = this.state.columns[columnId];
+            const tasks = column.taskIds.map(
+              taskId => this.state.tasks[taskId]
+            );
+
+            return <Column key={column.id} column={column} tasks={tasks} />;
+          })}
+        </Container>
+      </DragDropContext>
     );
   }
 }
