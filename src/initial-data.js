@@ -35,17 +35,17 @@ const initialData = {
   columns: {
     mStoneA: {
       id: 'mStoneA',
-      title: 'Milestone 01',
+      title: 'Version 01',
       taskIds: ['item-1', 'item-2', 'item-3']
     },
     mStoneB: {
       id: 'mStoneB',
-      title: 'Milestone 02',
+      title: 'Version 02',
       taskIds: ['item-4', 'item-5']
     },
     mStoneC: {
       id: 'mStoneC',
-      title: 'Milestone 02',
+      title: 'Final',
       taskIds: ['item-6']
     }
   },
