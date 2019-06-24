@@ -3,10 +3,17 @@ import ReactDOM from 'react-dom';
 // import '@atlaskit/css-reset';
 import styled from 'styled-components';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faBars, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import initialData from '../initial-data';
 import Column from './column';
+import Header from './Header';
+
+library.add(faBars, faPlusCircle);
 
 const Container = styled.div`
+  margin: 2%;
   // display: flex;
 `;
 
@@ -94,30 +101,37 @@ class App extends React.Component {
 
   render() {
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <Droppable droppableId="all-columns" type="column">
-          {provided => (
-            <Container {...provided.droppableProps} ref={provided.innerRef}>
-              {this.state.columnOrder.map((columnId, index) => {
-                const column = this.state.columns[columnId];
-                const tasks = column.taskIds.map(
-                  taskId => this.state.tasks[taskId]
-                );
+      <div>
+        <Header />
+        {/* TODO: Place this inside a styled box */}
+        <div style={{ textAlign: 'center' }}>
+          <FontAwesomeIcon icon={'plus-circle'} transform="grow-12" />
+        </div>
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          <Droppable droppableId="all-columns" type="column">
+            {provided => (
+              <Container {...provided.droppableProps} ref={provided.innerRef}>
+                {this.state.columnOrder.map((columnId, index) => {
+                  const column = this.state.columns[columnId];
+                  const tasks = column.taskIds.map(
+                    taskId => this.state.tasks[taskId]
+                  );
 
-                return (
-                  <Column
-                    key={column.id}
-                    column={column}
-                    tasks={tasks}
-                    index={index}
-                  />
-                );
-              })}
-              {provided.placeholder}
-            </Container>
-          )}
-        </Droppable>
-      </DragDropContext>
+                  return (
+                    <Column
+                      key={column.id}
+                      column={column}
+                      tasks={tasks}
+                      index={index}
+                    />
+                  );
+                })}
+                {provided.placeholder}
+              </Container>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </div>
     );
   }
 }
