@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
   border: 1px solid lightgrey;
   border-radius: 2px;
   padding: 8px;
@@ -22,6 +24,9 @@ export default class Task extends React.Component {
             isDragging={snapshot.isDragging}
           >
             {this.props.task.description}
+            <div>
+              Estimated Days: <input type="text" name="days" />
+            </div>
           </Container>
         )}
       </Draggable>

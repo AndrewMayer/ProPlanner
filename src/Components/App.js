@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBars, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import initialData from '../initial-data';
-import Column from './column';
+import Milestone from './Milestone';
 import Header from './Header';
 
 library.add(faBars, faPlusCircle);
@@ -15,6 +15,10 @@ library.add(faBars, faPlusCircle);
 const Container = styled.div`
   margin: 2%;
   // display: flex;
+`;
+
+const Title = styled.h1`
+  text-align: center;
 `;
 
 class App extends React.Component {
@@ -102,6 +106,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <Title>ProPlanner V0.1</Title>
         <Header />
         {/* TODO: Place this inside a styled box */}
         <div style={{ textAlign: 'center' }}>
@@ -118,7 +123,7 @@ class App extends React.Component {
                   );
 
                   return (
-                    <Column
+                    <Milestone
                       key={column.id}
                       column={column}
                       tasks={tasks}

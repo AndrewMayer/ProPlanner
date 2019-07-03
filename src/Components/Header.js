@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Container = styled.div`
+const MainHeader = styled.div`
   border-radius: 2px;
   margin: 3vh auto 3vh;
   padding: 1vh 1vw;
   width: 70vw;
   display: flex;
   border: 2px solid lightgrey;
+  background-color: #ddd;
 `;
 
 const Title = styled.div`
@@ -31,7 +32,7 @@ const DateBox = styled.input`
 
 const Header = () => {
   return (
-    <Container>
+    <MainHeader>
       <Title>
         <div>
           <FontAwesomeIcon icon={'bars'} />
@@ -48,7 +49,7 @@ const Header = () => {
         <div className="bigFiller" />
         <div>Total Days: NNN</div>
       </Title>
-    </Container>
+    </MainHeader>
   );
 };
 
