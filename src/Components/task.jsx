@@ -12,6 +12,11 @@ const Container = styled.div`
   background-color: ${props => (props.isDragging ? 'lightblue' : 'white')};
 `;
 
+const Daybox = styled.input`
+  width: 3em;
+  text-align: right;
+`;
+
 export default class Task extends React.Component {
   render() {
     return (
@@ -25,7 +30,7 @@ export default class Task extends React.Component {
           >
             {this.props.task.description}
             <div>
-              Estimated Days: <input type="text" name="days" />
+              Estimated Days: <Daybox type="text" name="days" />
             </div>
           </Container>
         )}
