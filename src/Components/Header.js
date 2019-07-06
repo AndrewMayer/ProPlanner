@@ -30,6 +30,19 @@ const DateBox = styled.input`
   width: 6vw;
 `;
 
+const addDays = function(d, days) {
+  const date = new Date(d);
+  date.setDate(date.getDate() + days);
+  return String(date);
+};
+
+const formattedDate = d => {
+  const date = new Date(d);
+  return [date.getDate(), date.getMonth() + 1, date.getFullYear()]
+    .map(n => (n < 10 ? `0${n}` : `${n}`))
+    .join('/');
+};
+
 const Header = props => {
   let sum = 0;
   // TODO: Come back some day and calculate this from milestone values?
@@ -46,11 +59,16 @@ const Header = props => {
         </div>
         <div className="filler" />
         <div>
-          Start Date: <DateBox type="text" name="date" />
+          Start Date:{' '}
+          <DateBox
+            type="text"
+            defaultValue={formattedDate(props.date)}
+            name="date"
+          />
         </div>
         <div className="filler" />
         <div>
-          End Date: <DateBox type="text" name="date" />
+          <div>End Date: {formattedDate(addDays(props.date, sum))}</div>
         </div>
         <div className="bigFiller" />
         <div>Total Days: {sum}</div>

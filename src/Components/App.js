@@ -27,6 +27,10 @@ const Title = styled.h1`
 class App extends React.Component {
   state = initialData;
 
+  clickAlert = () => {
+    alert(`You want a new milestone!`);
+  };
+
   onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
 
@@ -111,8 +115,8 @@ class App extends React.Component {
     return (
       <div>
         <Title>ProPlanner V0.1</Title>
-        <Header tasks={this.state.tasks} />
-        <div style={{ textAlign: 'center' }}>
+        <Header tasks={this.state.tasks} date={this.state.startDate} />
+        <div onClick={this.clickAlert} style={{ textAlign: 'center' }}>
           <FontAwesomeIcon icon={'plus-circle'} transform="grow-12" />
         </div>
         <DragDropContext onDragEnd={this.onDragEnd}>

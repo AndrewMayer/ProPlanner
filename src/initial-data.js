@@ -1,4 +1,5 @@
 const initialData = {
+  startDate: '2019,05,12',
   tasks: {
     'item-1': {
       id: 'item-1',

@@ -37,6 +37,10 @@ const AddTask = styled.div`
   justify-content: center;
 `;
 
+const clickAlert = () => {
+  alert(`You want a new task!`);
+};
+
 const arrSum = arr => {
   return arr.reduce(function(a, b) {
     return a + b;
@@ -70,7 +74,7 @@ const Milestone = props => {
               </TaskList>
             )}
           </Droppable>
-          <AddTask>
+          <AddTask onClick={clickAlert}>
             <FontAwesomeIcon icon={'plus-circle'} transform="grow-10" />
           </AddTask>
         </Container>
