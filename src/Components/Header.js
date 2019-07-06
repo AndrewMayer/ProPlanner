@@ -30,7 +30,13 @@ const DateBox = styled.input`
   width: 6vw;
 `;
 
-const Header = () => {
+const Header = props => {
+  let sum = 0;
+  // TODO: Come back some day and calculate this from milestone values?
+  for (let key in props.tasks) {
+    sum += props.tasks[key].estDays;
+  }
+
   return (
     <MainHeader>
       <Title>
@@ -47,7 +53,7 @@ const Header = () => {
           End Date: <DateBox type="text" name="date" />
         </div>
         <div className="bigFiller" />
-        <div>Total Days: NNN</div>
+        <div>Total Days: {sum}</div>
       </Title>
     </MainHeader>
   );

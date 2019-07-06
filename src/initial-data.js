@@ -3,32 +3,38 @@ const initialData = {
     'item-1': {
       id: 'item-1',
       name: 'Document Outline',
-      description: 'Create an outline for the document'
+      description: 'Create an outline for the document',
+      estDays: 5
     },
     'item-2': {
       id: 'item-2',
       name: 'Write Document',
-      description: 'Write the document'
+      description: 'Write the document',
+      estDays: 6
     },
     'item-3': {
       id: 'item-3',
       name: 'Create Wireframes',
-      description: 'Create wireframes'
+      description: 'Create wireframes',
+      estDays: 7
     },
     'item-4': {
       id: 'item-4',
       name: 'Code Initial Concept',
-      description: 'Wire up initial concept'
+      description: 'Wire up initial concept',
+      estDays: 9
     },
     'item-5': {
       id: 'item-5',
       name: 'Code beta',
-      description: 'Wire up initial full version with styling'
+      description: 'Wire up initial full version with styling',
+      estDays: 9
     },
     'item-6': {
       id: 'item-6',
       name: 'Code final',
-      description: `Create and outline for the document`
+      description: `Create and outline for the document`,
+      estDays: 10
     }
   },
 

@@ -37,6 +37,12 @@ const AddTask = styled.div`
   justify-content: center;
 `;
 
+const arrSum = arr => {
+  return arr.reduce(function(a, b) {
+    return a + b;
+  }, 0);
+};
+
 const Milestone = props => {
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
@@ -44,7 +50,9 @@ const Milestone = props => {
         <Container {...provided.draggableProps} ref={provided.innerRef}>
           <MileTitle>
             <div {...provided.dragHandleProps}>{props.column.title}</div>
-            <div className="subtext">Total Days: NN</div>
+            <div className="subtext">
+              Total Days: {arrSum(props.tasks.map(task => task.estDays))}
+            </div>
             <div className="subtext">Start Date: NN/NN/NN</div>
             <div className="subtext">End Date: NN/NN/NN</div>
           </MileTitle>

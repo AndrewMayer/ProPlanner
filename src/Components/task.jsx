@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Container = styled.div`
   display: flex;
@@ -10,11 +11,6 @@ const Container = styled.div`
   padding: 8px;
   margin-bottom: 8px;
   background-color: ${props => (props.isDragging ? 'lightblue' : 'white')};
-`;
-
-const Daybox = styled.input`
-  width: 3em;
-  text-align: right;
 `;
 
 export default class Task extends React.Component {
@@ -30,7 +26,10 @@ export default class Task extends React.Component {
           >
             {this.props.task.description}
             <div>
-              Estimated Days: <Daybox type="text" name="days" />
+              Estimated Days: <b>{this.props.task.estDays}</b>
+            </div>
+            <div>
+              <FontAwesomeIcon icon={'edit'} transform="grow-8" />
             </div>
           </Container>
         )}

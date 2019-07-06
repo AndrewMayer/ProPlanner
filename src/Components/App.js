@@ -1,16 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 // import '@atlaskit/css-reset';
 import styled from 'styled-components';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBars, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  faPlusCircle,
+  faEdit
+} from '@fortawesome/free-solid-svg-icons';
 import initialData from '../initial-data';
 import Milestone from './Milestone';
 import Header from './Header';
 
-library.add(faBars, faPlusCircle);
+library.add(faBars, faPlusCircle, faEdit);
 
 const Container = styled.div`
   margin: 2%;
@@ -76,7 +79,7 @@ class App extends React.Component {
       return;
     }
 
-    //Moving from one column to another
+    //Moving from one Milestone to another
     const homeTaskIds = Array.from(home.taskIds);
     homeTaskIds.splice(source.index, 1);
     const newHome = {
@@ -99,6 +102,7 @@ class App extends React.Component {
         [newForeign.id]: newForeign
       }
     };
+
     this.setState(newState);
     return;
   };
@@ -107,8 +111,7 @@ class App extends React.Component {
     return (
       <div>
         <Title>ProPlanner V0.1</Title>
-        <Header />
-        {/* TODO: Place this inside a styled box */}
+        <Header tasks={this.state.tasks} />
         <div style={{ textAlign: 'center' }}>
           <FontAwesomeIcon icon={'plus-circle'} transform="grow-12" />
         </div>
