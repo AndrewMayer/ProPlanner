@@ -34,17 +34,13 @@ const DateBox = styled.input`
 `;
 
 const addDays = function(inputDate, days) {
-  // const date = new Date(inputDate);
-  // date.setDate(days);
-  // console.log(date);
-
   var date = new Date(inputDate.valueOf());
   date.setDate(date.getDate() + days);
   return date;
 };
 
-const formattedDate = d => {
-  const date = new Date(d);
+const formattedDate = inputDate => {
+  const date = new Date(inputDate);
   return [date.getMonth() + 1, date.getDate(), date.getFullYear()]
     .map(n => (n < 10 ? `0${n}` : `${n}`))
     .join('/');
