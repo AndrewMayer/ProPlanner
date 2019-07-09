@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { formattedDate, addDays } from '../dateFuncs.js';
 import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -28,23 +29,6 @@ const Title = styled.div`
     padding: 0 2vw;
   }
 `;
-
-const DateBox = styled.input`
-  width: 6vw;
-`;
-
-const addDays = function(inputDate, days) {
-  var date = new Date(inputDate.valueOf());
-  date.setDate(date.getDate() + days);
-  return date;
-};
-
-const formattedDate = inputDate => {
-  const date = new Date(inputDate);
-  return [date.getMonth() + 1, date.getDate(), date.getFullYear()]
-    .map(n => (n < 10 ? `0${n}` : `${n}`))
-    .join('/');
-};
 
 const Header = props => {
   const [dateState, setDateState] = useState({ startDate: new Date() });
@@ -74,11 +58,6 @@ const Header = props => {
         <div className="filler" />
         <div>
           Start Date:{' '}
-          {/* <DateBox
-            type="text"
-            defaultValue={formattedDate(props.date)}
-            name="date"
-          /> */}
           <DatePicker selected={dateState.startDate} onChange={handleChange} />
         </div>
         <div className="filler" />

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { arrSum } from '../dateFuncs.js';
 import {
   faBars,
   faPlusCircle,
@@ -125,6 +126,12 @@ class App extends React.Component {
               <Container {...provided.droppableProps} ref={provided.innerRef}>
                 {this.state.columnOrder.map((columnId, index) => {
                   const column = this.state.columns[columnId];
+                  const mstoneDays = arrSum(
+                    this.state.columns[columnId].taskIds.map(
+                      task => this.state.tasks[task].estDays
+                    )
+                  );
+
                   const tasks = column.taskIds.map(
                     taskId => this.state.tasks[taskId]
                   );
@@ -135,6 +142,7 @@ class App extends React.Component {
                       column={column}
                       tasks={tasks}
                       index={index}
+                      mstoneDays={mstoneDays}
                     />
                   );
                 })}

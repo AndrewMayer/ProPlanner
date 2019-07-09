@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { arrSum } from '../dateFuncs.js';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Task from './task';
@@ -41,12 +42,6 @@ const clickAlert = () => {
   alert(`You want a new task!`);
 };
 
-const arrSum = arr => {
-  return arr.reduce(function(a, b) {
-    return a + b;
-  }, 0);
-};
-
 const Milestone = props => {
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
@@ -55,7 +50,8 @@ const Milestone = props => {
           <MileTitle>
             <div {...provided.dragHandleProps}>{props.column.title}</div>
             <div className="subtext">
-              Total Days: {arrSum(props.tasks.map(task => task.estDays))}
+              {/* Total Days: {arrSum(props.tasks.map(task => task.estDays))} */}
+              Total Days: {props.mstoneDays}
             </div>
             <div className="subtext">Start Date: NN/NN/NN</div>
             <div className="subtext">End Date: NN/NN/NN</div>
