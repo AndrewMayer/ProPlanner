@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const MainHeader = styled.div`
   border-radius: 2px;
@@ -31,9 +34,12 @@ const DateBox = styled.input`
 `;
 
 const addDays = function(d, days) {
-  const date = new Date(d);
-  date.setDate(date.getDate() + days);
-  return String(date);
+  console.log('addDays fired');
+  console.log('d is ' + d.valueOf());
+  const date = new Date(d.valueOf());
+  console.log('date is ' + date);
+  date.setDate(days);
+  return date;
 };
 
 const formattedDate = d => {
@@ -44,11 +50,25 @@ const formattedDate = d => {
 };
 
 const Header = props => {
+  const [startDate, doDate] = useState(Date());
+
+  const handleChange = date => {
+    console.log('handleChange fired');
+    doDate(Date(date));
+    console.log(`StartDate is ${startDate}`);
+    // debugger;
+  };
+
   let sum = 0;
-  // TODO: Come back some day and calculate this from milestone values?
+  // TODO: Calculate this from milestone values rather than all tasks?
   for (let key in props.tasks) {
     sum += props.tasks[key].estDays;
   }
+
+  const generateEndDate = () => {
+    const newDate = formattedDate(addDays(startDate, sum));
+    return newDate;
+  };
 
   return (
     <MainHeader>
@@ -60,15 +80,17 @@ const Header = props => {
         <div className="filler" />
         <div>
           Start Date:{' '}
-          <DateBox
+          {/* <DateBox
             type="text"
             defaultValue={formattedDate(props.date)}
             name="date"
-          />
+          /> */}
+          {console.log(startDate)}
+          <DatePicker selected={startDate.getUTCDate} onChange={handleChange} />
         </div>
         <div className="filler" />
         <div>
-          <div>End Date: {formattedDate(addDays(props.date, sum))}</div>
+          <div>End Date: {generateEndDate()}</div>
         </div>
         <div className="bigFiller" />
         <div>Total Days: {sum}</div>

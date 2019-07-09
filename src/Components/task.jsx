@@ -13,6 +13,10 @@ const Container = styled.div`
   background-color: ${props => (props.isDragging ? 'lightblue' : 'white')};
 `;
 
+const clickAlert = () => {
+  alert(`You want to edit a task!`);
+};
+
 export default class Task extends React.Component {
   render() {
     return (
@@ -28,7 +32,7 @@ export default class Task extends React.Component {
             <div>
               Estimated Days: <b>{this.props.task.estDays}</b>
             </div>
-            <div>
+            <div onClick={clickAlert} style={{ textAlign: 'center' }}>
               <FontAwesomeIcon icon={'edit'} transform="grow-8" />
             </div>
           </Container>
