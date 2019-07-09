@@ -33,30 +33,28 @@ const DateBox = styled.input`
   width: 6vw;
 `;
 
-const addDays = function(d, days) {
-  console.log('addDays fired');
-  console.log('d is ' + d.valueOf());
-  const date = new Date(d.valueOf());
-  console.log('date is ' + date);
-  date.setDate(days);
+const addDays = function(inputDate, days) {
+  // const date = new Date(inputDate);
+  // date.setDate(days);
+  // console.log(date);
+
+  var date = new Date(inputDate.valueOf());
+  date.setDate(date.getDate() + days);
   return date;
 };
 
 const formattedDate = d => {
   const date = new Date(d);
-  return [date.getDate(), date.getMonth() + 1, date.getFullYear()]
+  return [date.getMonth() + 1, date.getDate(), date.getFullYear()]
     .map(n => (n < 10 ? `0${n}` : `${n}`))
     .join('/');
 };
 
 const Header = props => {
-  const [startDate, doDate] = useState(Date());
+  const [dateState, setDateState] = useState({ startDate: new Date() });
 
   const handleChange = date => {
-    console.log('handleChange fired');
-    doDate(Date(date));
-    console.log(`StartDate is ${startDate}`);
-    // debugger;
+    setDateState({ startDate: new Date(date) });
   };
 
   let sum = 0;
@@ -66,8 +64,8 @@ const Header = props => {
   }
 
   const generateEndDate = () => {
-    const newDate = formattedDate(addDays(startDate, sum));
-    return newDate;
+    const newDate = formattedDate(addDays(dateState.startDate, sum));
+    return `${newDate}`;
   };
 
   return (
@@ -85,8 +83,7 @@ const Header = props => {
             defaultValue={formattedDate(props.date)}
             name="date"
           /> */}
-          {console.log(startDate)}
-          <DatePicker selected={startDate.getUTCDate} onChange={handleChange} />
+          <DatePicker selected={dateState.startDate} onChange={handleChange} />
         </div>
         <div className="filler" />
         <div>

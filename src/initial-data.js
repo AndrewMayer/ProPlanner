@@ -17,25 +17,25 @@ const initialData = {
       id: 'item-3',
       name: 'Create Wireframes',
       description: 'Create wireframes',
-      estDays: 7
+      estDays: 9
     },
     'item-4': {
       id: 'item-4',
       name: 'Code Initial Concept',
       description: 'Wire up initial concept',
-      estDays: 9
+      estDays: 6
     },
     'item-5': {
       id: 'item-5',
       name: 'Code beta',
       description: 'Wire up initial full version with styling',
-      estDays: 9
+      estDays: 1
     },
     'item-6': {
       id: 'item-6',
       name: 'Code final',
       description: `Create and outline for the document`,
-      estDays: 10
+      estDays: 3
     }
   },
 
