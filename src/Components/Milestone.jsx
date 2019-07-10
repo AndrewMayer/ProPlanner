@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { arrSum } from '../dateFuncs.js';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Task from './task';

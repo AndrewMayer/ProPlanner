@@ -32,6 +32,20 @@ class App extends React.Component {
     alert(`You want a new milestone!`);
   };
 
+  setMstoneDays = columnId => {
+    const newDays = arrSum(
+      this.state.columns[columnId].taskIds.map(
+        task => this.state.tasks[task].estDays
+      )
+    );
+    // let searchTerm = `columns.${columnId}.totalDays`;
+    // this.setState({ [searchTerm]: newDays });
+    return newDays;
+    // TODO: Can't setstate during render.
+  };
+
+  //Beautiful Dnd Updating
+
   onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
 
@@ -126,11 +140,11 @@ class App extends React.Component {
               <Container {...provided.droppableProps} ref={provided.innerRef}>
                 {this.state.columnOrder.map((columnId, index) => {
                   const column = this.state.columns[columnId];
-                  const mstoneDays = arrSum(
-                    this.state.columns[columnId].taskIds.map(
-                      task => this.state.tasks[task].estDays
-                    )
-                  );
+                  // const mstoneDays = arrSum(
+                  //   this.state.columns[columnId].taskIds.map(
+                  //     task => this.state.tasks[task].estDays
+                  //   )
+                  const mstoneDays = this.setMstoneDays(columnId);
 
                   const tasks = column.taskIds.map(
                     taskId => this.state.tasks[taskId]
