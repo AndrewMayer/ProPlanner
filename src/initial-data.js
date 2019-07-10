@@ -44,19 +44,22 @@ const initialData = {
       id: 'mStoneA',
       title: 'Version 01',
       taskIds: ['item-1', 'item-2', 'item-3'],
-      totalDays: 0
+      totalDays: 0,
+      startDate: Date()
     },
     mStoneB: {
       id: 'mStoneB',
       title: 'Version 02',
       taskIds: ['item-4', 'item-5'],
-      totalDays: 0
+      totalDays: 0,
+      startDate: Date()
     },
     mStoneC: {
       id: 'mStoneC',
       title: 'Final',
       taskIds: ['item-6'],
-      totalDays: 0
+      totalDays: 0,
+      startDate: Date()
     }
   },
   columnOrder: ['mStoneA', 'mStoneB', 'mStoneC']
