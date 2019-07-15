@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formattedDate, addDays } from '../dateFuncs.js';
@@ -30,21 +30,16 @@ const Title = styled.div`
   }
 `;
 
-const Header = props => {
-  const [dateState, setDateState] = useState({ startDate: new Date() });
-
-  const handleChange = date => {
-    setDateState({ startDate: new Date(date) });
-  };
+const Header = ({ tasks, date, setDate }) => {
+  // const [dateState, setDateState] = useState({ startDate: this.date });
 
   let sum = 0;
-  // TODO: Calculate this from milestone values rather than all tasks?
-  for (let key in props.tasks) {
-    sum += props.tasks[key].estDays;
+  for (let key in tasks) {
+    sum += tasks[key].estDays;
   }
 
-  const generateEndDate = () => {
-    const newDate = formattedDate(addDays(dateState.startDate, sum));
+  const generateEndDate = date => {
+    const newDate = formattedDate(addDays(new Date(date), sum));
     return `${newDate}`;
   };
 
@@ -57,12 +52,12 @@ const Header = props => {
         </div>
         <div className="filler" />
         <div>
-          Start Date:{' '}
-          <DatePicker selected={dateState.startDate} onChange={handleChange} />
+          {console.log(`date: ${date}`)}
+          Start Date: <DatePicker selected={date} onChange={setDate} />
         </div>
         <div className="filler" />
         <div>
-          <div>End Date: {generateEndDate()}</div>
+          <div>End Date: {generateEndDate(date)}</div>
         </div>
         <div className="bigFiller" />
         <div>Total Days: {sum}</div>

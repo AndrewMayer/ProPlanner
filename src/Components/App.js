@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { arrSum } from '../dateFuncs.js';
+import { arrSum, addDays, formattedDate } from '../dateFuncs.js';
 import {
   faBars,
   faPlusCircle,
@@ -32,16 +32,18 @@ class App extends React.Component {
     alert(`You want a new milestone!`);
   };
 
-  setMstoneDays = columnId => {
+  calcMstoneDays = columnId => {
     const newDays = arrSum(
       this.state.columns[columnId].taskIds.map(
         task => this.state.tasks[task].estDays
       )
     );
-    // let searchTerm = `columns.${columnId}.totalDays`;
-    // this.setState({ [searchTerm]: newDays });
     return newDays;
-    // TODO: Can't setstate during render.
+  };
+
+  handleNewDate = date => {
+    this.setState({ startDate: new Date(date) });
+    return;
   };
 
   //Beautiful Dnd Updating
@@ -65,6 +67,9 @@ class App extends React.Component {
       newColumnOrder.splice(source.index, 1);
       newColumnOrder.splice(destination.index, 0, draggableId);
 
+      //TODO: Use the newColumnOrder array to determine the new values for start and completion dates for all milestones.
+      //Map through newColumnOrder and add days then calculate start dates.
+
       const newState = {
         ...this.state,
         columnOrder: newColumnOrder
@@ -80,6 +85,9 @@ class App extends React.Component {
       const newTaskIds = Array.from(home.taskIds);
       newTaskIds.splice(source.index, 1);
       newTaskIds.splice(destination.index, 0, draggableId);
+
+      //TODO: Go through the tasks and recalculate total days.
+      //TODO: Map across the new newTaskIds and write new days to totalDays in newState
 
       const newColumn = {
         ...home,
@@ -122,6 +130,30 @@ class App extends React.Component {
       }
     };
 
+    //Update milestone days.
+    let allDays = [];
+    newState.columnOrder.forEach(columnId => {
+      let newDays = arrSum(
+        newState.columns[columnId].taskIds.map(
+          task => this.state.tasks[task].estDays
+        )
+      );
+      console.log('allDays: ' + allDays);
+
+      newState.columns[columnId].totalDays = newDays;
+      newState.columns[columnId].startDate = addDays(
+        newState.startDate,
+        arrSum(allDays)
+      );
+      newState.columns[columnId].endDate = addDays(
+        newState.columns[columnId].startDate,
+        newDays
+      );
+      allDays.push(newDays + 1);
+    });
+
+    //Update milestone dates.
+
     this.setState(newState);
     return;
   };
@@ -130,7 +162,11 @@ class App extends React.Component {
     return (
       <div>
         <Title>ProPlanner V0.1</Title>
-        <Header tasks={this.state.tasks} date={this.state.startDate} />
+        <Header
+          tasks={this.state.tasks}
+          date={new Date(this.state.startDate)}
+          setDate={this.handleNewDate}
+        />
         <div onClick={this.clickAlert} style={{ textAlign: 'center' }}>
           <FontAwesomeIcon icon={'plus-circle'} transform="grow-12" />
         </div>
@@ -140,12 +176,6 @@ class App extends React.Component {
               <Container {...provided.droppableProps} ref={provided.innerRef}>
                 {this.state.columnOrder.map((columnId, index) => {
                   const column = this.state.columns[columnId];
-                  // const mstoneDays = arrSum(
-                  //   this.state.columns[columnId].taskIds.map(
-                  //     task => this.state.tasks[task].estDays
-                  //   )
-                  const mstoneDays = this.setMstoneDays(columnId);
-
                   const tasks = column.taskIds.map(
                     taskId => this.state.tasks[taskId]
                   );
@@ -156,7 +186,7 @@ class App extends React.Component {
                       column={column}
                       tasks={tasks}
                       index={index}
-                      mstoneDays={mstoneDays}
+                      mstoneDays={this.calcMstoneDays(columnId)}
                     />
                   );
                 })}

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { formattedDate, addDays } from '../dateFuncs.js';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Task from './task';
@@ -50,10 +51,14 @@ const Milestone = props => {
             <div {...provided.dragHandleProps}>{props.column.title}</div>
             <div className="subtext">
               {/* Total Days: {arrSum(props.tasks.map(task => task.estDays))} */}
-              Total Days: {props.mstoneDays}
+              Total Days: {props.column.totalDays}
             </div>
-            <div className="subtext">Start Date: NN/NN/NN</div>
-            <div className="subtext">End Date: NN/NN/NN</div>
+            <div className="subtext">
+              Start Date: {formattedDate(props.column.startDate)}
+            </div>
+            <div className="subtext">
+              End Date: {formattedDate(props.column.endDate)}
+            </div>
           </MileTitle>
           <Droppable droppableId={props.column.id} type="task">
             {(provided, snapshot) => (

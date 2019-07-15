@@ -1,5 +1,9 @@
+import { addDays } from './dateFuncs.js';
+
+let date = new Date('2019,05,01');
+
 const initialData = {
-  startDate: '2019,05,12',
+  startDate: date,
   tasks: {
     'item-1': {
       id: 'item-1',
@@ -44,22 +48,25 @@ const initialData = {
       id: 'mStoneA',
       title: 'Version 01',
       taskIds: ['item-1', 'item-2', 'item-3'],
-      totalDays: 0,
-      startDate: Date()
+      totalDays: 10,
+      startDate: Date(),
+      endDate: addDays(Date(), 10)
     },
     mStoneB: {
       id: 'mStoneB',
       title: 'Version 02',
       taskIds: ['item-4', 'item-5'],
-      totalDays: 0,
-      startDate: Date()
+      totalDays: 7,
+      startDate: Date(),
+      endDate: addDays(Date(), 7)
     },
     mStoneC: {
       id: 'mStoneC',
       title: 'Final',
       taskIds: ['item-6'],
-      totalDays: 0,
-      startDate: Date()
+      totalDays: 3,
+      startDate: Date(),
+      endDate: addDays(Date(), 3)
     }
   },
   columnOrder: ['mStoneA', 'mStoneB', 'mStoneC']

@@ -13,7 +13,6 @@ const formattedDate = inputDate => {
 
 const arrSum = arr => {
   return arr.reduce(function(a, b) {
-    console.log(a + b);
     return a + b;
   }, 0);
 };
