@@ -49,7 +49,7 @@ const initialData = {
       title: 'Version 01',
       taskIds: ['item-1', 'item-2', 'item-3'],
       totalDays: 10,
-      startDate: Date(),
+      startDate: new Date('2019,05,01'),
       endDate: addDays(Date(), 10)
     },
     mStoneB: {
@@ -57,7 +57,7 @@ const initialData = {
       title: 'Version 02',
       taskIds: ['item-4', 'item-5'],
       totalDays: 7,
-      startDate: Date(),
+      startDate: new Date('2019,05,22'),
       endDate: addDays(Date(), 7)
     },
     mStoneC: {
@@ -65,7 +65,7 @@ const initialData = {
       title: 'Final',
       taskIds: ['item-6'],
       totalDays: 3,
-      startDate: Date(),
+      startDate: new Date('2019,05,30'),
       endDate: addDays(Date(), 3)
     }
   },
