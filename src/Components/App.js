@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { arrSum, addDays, formattedDate } from '../dateFuncs.js';
+import { arrSum, addDays } from '../dateFuncs.js';
 import {
   faBars,
   faPlusCircle,
@@ -41,8 +41,37 @@ class App extends React.Component {
     return newDays;
   };
 
+  //Update milestone date values based on modified start date.
+  mStoneRestart = newState => {
+    let allDays = [];
+    newState.columnOrder.forEach(columnId => {
+      let newDays = arrSum(
+        newState.columns[columnId].taskIds.map(
+          task => this.state.tasks[task].estDays
+        )
+      );
+
+      newState.columns[columnId].totalDays = newDays;
+      newState.columns[columnId].startDate = addDays(
+        newState.startDate,
+        arrSum(allDays)
+      );
+      newState.columns[columnId].endDate = addDays(
+        newState.columns[columnId].startDate,
+        newDays
+      );
+      allDays.push(newDays + 1);
+    });
+    return newState;
+  };
+
+  //Update date change from Header date picker.
+
   handleNewDate = date => {
-    this.setState({ startDate: new Date(date) });
+    // this.setState({ startDate: new Date(date) });
+    let newState = { ...this.state, startDate: new Date(date) };
+    newState = this.mStoneRestart(newState);
+    this.setState(newState);
     return;
   };
 
@@ -121,7 +150,7 @@ class App extends React.Component {
       taskIds: foreignTaskIds
     };
 
-    const newState = {
+    let newState = {
       ...this.state,
       columns: {
         ...this.state.columns,
@@ -130,29 +159,7 @@ class App extends React.Component {
       }
     };
 
-    //Update milestone days.
-    let allDays = [];
-    newState.columnOrder.forEach(columnId => {
-      let newDays = arrSum(
-        newState.columns[columnId].taskIds.map(
-          task => this.state.tasks[task].estDays
-        )
-      );
-      console.log('allDays: ' + allDays);
-
-      newState.columns[columnId].totalDays = newDays;
-      newState.columns[columnId].startDate = addDays(
-        newState.startDate,
-        arrSum(allDays)
-      );
-      newState.columns[columnId].endDate = addDays(
-        newState.columns[columnId].startDate,
-        newDays
-      );
-      allDays.push(newDays + 1);
-    });
-
-    //Update milestone dates.
+    newState = this.mStoneRestart(newState);
 
     this.setState(newState);
     return;
