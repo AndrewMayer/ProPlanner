@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { formattedDate, addDays } from '../dateFuncs.js';
+import { formattedDate } from '../dateFuncs.js';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Task from './task';
@@ -68,7 +68,12 @@ const Milestone = props => {
                 isDraggingOver={snapshot.isDraggingOver}
               >
                 {props.tasks.map((task, index) => (
-                  <Task key={task.id} task={task} index={index} />
+                  <Task
+                    key={task.id}
+                    task={task}
+                    index={index}
+                    updateEstimatedDays={props.updateEstimatedDays}
+                  />
                 ))}
                 {provided.placeholder}
               </TaskList>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,27 +17,59 @@ const clickAlert = () => {
   alert(`You want to edit a task!`);
 };
 
-export default class Task extends React.Component {
-  render() {
+const Task = props => {
+  const [isTextEdit, setIsTextEdit] = useState(false);
+  const [newEstDays, setNewEstDays] = useState(props.task.estDays);
+
+  const switchEstimatedEdit = () => {
+    setIsTextEdit(!isTextEdit);
+  };
+
+  const renderEstimated = () => {
     return (
-      <Draggable draggableId={this.props.task.id} index={this.props.index}>
-        {(provided, snapshot) => (
-          <Container
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            ref={provided.innerRef}
-            isDragging={snapshot.isDragging}
-          >
-            {this.props.task.description}
-            <div>
-              Estimated Days: <b>{this.props.task.estDays}</b>
-            </div>
-            <div onClick={clickAlert} style={{ textAlign: 'center' }}>
-              <FontAwesomeIcon icon={'edit'} transform="grow-8" />
-            </div>
-          </Container>
-        )}
-      </Draggable>
+      <div>
+        Estimated Days: <b>{props.task.estDays}</b>
+      </div>
     );
-  }
-}
+  };
+
+  const upDateEstimatedValue = inputValue => {
+    setIsTextEdit(false);
+    props.upDateEstimatedDays(props.key, inputValue);
+  };
+
+  const editEstimated = () => {
+    return (
+      <div>
+        Estimated Days:{' '}
+        <input type="number" defaultValue={newEstDays} onChange="inputValue" />
+        <button onclick={switchEstimatedEdit}>X</button>
+        {/* <button onclick={upDateEstimatedValue(inputValue)}>OK</button> */}
+      </div>
+    );
+  };
+
+  return (
+    <Draggable draggableId={props.task.id} index={props.index}>
+      {(provided, snapshot) => (
+        <Container
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+          isDragging={snapshot.isDragging}
+        >
+          <div onDoubleClick={switchEstimatedEdit}>
+            {isTextEdit ? editEstimated() : renderEstimated()}
+          </div>
+          <div>{props.task.description}</div>
+
+          <div onClick={clickAlert} style={{ textAlign: 'center' }}>
+            <FontAwesomeIcon icon={'edit'} transform="grow-8" />
+          </div>
+        </Container>
+      )}
+    </Draggable>
+  );
+};
+
+export default Task;

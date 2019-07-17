@@ -65,17 +65,32 @@ class App extends React.Component {
     return newState;
   };
 
-  //Update date change from Header date picker.
+  //CALLBACKS
 
+  //Propagate date change from Header date picker update.
   handleNewDate = date => {
-    // this.setState({ startDate: new Date(date) });
     let newState = { ...this.state, startDate: new Date(date) };
     newState = this.mStoneRestart(newState);
     this.setState(newState);
     return;
   };
 
-  //Beautiful Dnd Updating
+  //Propagate estimated days change from task.
+  updateEstimatedDays = (changedId, newEstDays) => {
+    const newState = {
+      ...this.state,
+      task: {
+        [changedId]: {
+          estDays: newEstDays
+        }
+      }
+    };
+    // newState.tasks[changedId] = { estdays: newEstDays };
+    this.setState(newState);
+    return;
+  };
+
+  //Beautiful Dnd Updates
 
   onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
@@ -194,6 +209,7 @@ class App extends React.Component {
                       tasks={tasks}
                       index={index}
                       mstoneDays={this.calcMstoneDays(columnId)}
+                      updateEstimatedDays={this.updateEstimatedDays}
                     />
                   );
                 })}
