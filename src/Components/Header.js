@@ -52,7 +52,6 @@ const Header = ({ tasks, date, setDate }) => {
         </div>
         <div className="filler" />
         <div>
-          {console.log(`date: ${date}`)}
           Start Date: <DatePicker selected={date} onChange={setDate} />
         </div>
         <div className="filler" />

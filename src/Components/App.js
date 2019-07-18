@@ -77,16 +77,10 @@ class App extends React.Component {
 
   //Propagate estimated days change from task.
   updateEstimatedDays = (changedId, newEstDays) => {
-    console.log("I've been fired and value is " + newEstDays);
     const newState = {
-      ...this.state,
-      task: {
-        [changedId]: {
-          estDays: newEstDays
-        }
-      }
+      ...this.state
     };
-    // newState.tasks[changedId] = { estdays: newEstDays };
+    newState.tasks[changedId].estDays = newEstDays;
     this.setState(newState);
     return;
   };

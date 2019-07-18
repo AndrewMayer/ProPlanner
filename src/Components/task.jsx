@@ -33,9 +33,9 @@ const Task = props => {
     );
   };
 
-  const upDateEstimatedValue = inputValue => {
+  const upDateEstimatedValue = () => {
     setIsTextEdit(false);
-    props.updateEstimatedDays(props.task, inputValue);
+    props.updateEstimatedDays(props.task.id, newEstDays);
   };
 
   const editEstimated = () => {
