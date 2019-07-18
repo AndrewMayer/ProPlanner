@@ -35,16 +35,20 @@ const Task = props => {
 
   const upDateEstimatedValue = inputValue => {
     setIsTextEdit(false);
-    props.upDateEstimatedDays(props.key, inputValue);
+    props.updateEstimatedDays(props.task, inputValue);
   };
 
   const editEstimated = () => {
     return (
       <div>
         Estimated Days:{' '}
-        <input type="number" defaultValue={newEstDays} onChange="inputValue" />
-        <button onclick={switchEstimatedEdit}>X</button>
-        {/* <button onclick={upDateEstimatedValue(inputValue)}>OK</button> */}
+        <input
+          type="number"
+          defaultValue={newEstDays}
+          onChange={e => setNewEstDays(e.target.value)}
+        />
+        <button onClick={switchEstimatedEdit}>X</button>
+        <button onClick={upDateEstimatedValue}>OK</button>
       </div>
     );
   };

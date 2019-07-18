@@ -49,10 +49,7 @@ const Milestone = props => {
         <Container {...provided.draggableProps} ref={provided.innerRef}>
           <MileTitle>
             <div {...provided.dragHandleProps}>{props.column.title}</div>
-            <div className="subtext">
-              {/* Total Days: {arrSum(props.tasks.map(task => task.estDays))} */}
-              Total Days: {props.column.totalDays}
-            </div>
+            <div className="subtext">Total Days: {props.column.totalDays}</div>
             <div className="subtext">
               Start Date: {formattedDate(props.column.startDate)}
             </div>
