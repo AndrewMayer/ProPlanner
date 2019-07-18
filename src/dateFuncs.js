@@ -1,6 +1,6 @@
 const addDays = function(inputDate, days) {
   var date = new Date(inputDate.valueOf());
-  date.setDate(date.getDate() + days);
+  date.setDate(date.getDate() + parseInt(days));
   return date;
 };
 
@@ -13,7 +13,7 @@ const formattedDate = inputDate => {
 
 const arrSum = arr => {
   return arr.reduce(function(a, b) {
-    return a + b;
+    return parseInt(a) + parseInt(b);
   }, 0);
 };
 

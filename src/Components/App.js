@@ -84,6 +84,16 @@ class App extends React.Component {
     this.setState(newState);
     return;
   };
+  
+  //Propagate estimated days change from task.
+  updateDescription = (changedId, newDesc) => {
+    const newState = {
+      ...this.state
+    };
+    newState.tasks[changedId].description = newDesc;
+    this.setState(newState);
+    return;
+  };
 
   //Beautiful Dnd Updates
 
@@ -205,6 +215,7 @@ class App extends React.Component {
                       index={index}
                       mstoneDays={this.calcMstoneDays(columnId)}
                       updateEstimatedDays={this.updateEstimatedDays}
+                      updateDescription={this.updateDescription}
                     />
                   );
                 })}

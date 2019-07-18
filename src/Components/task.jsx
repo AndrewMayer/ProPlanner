@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Container = styled.div`
   display: flex;
@@ -13,16 +12,18 @@ const Container = styled.div`
   background-color: ${props => (props.isDragging ? 'lightblue' : 'white')};
 `;
 
-const clickAlert = () => {
-  alert(`You want to edit a task!`);
-};
-
 const Task = props => {
-  const [isTextEdit, setIsTextEdit] = useState(false);
+  const [isDescEdit, setIsDescEdit] = useState(false);
+  const [isEstimatedEdit, setIsEstimatedEdit] = useState(false);
   const [newEstDays, setNewEstDays] = useState(props.task.estDays);
+  const [newDesc, setNewDesc] = useState(props.task.description);
 
   const switchEstimatedEdit = () => {
-    setIsTextEdit(!isTextEdit);
+    setIsEstimatedEdit(!isEstimatedEdit);
+  };
+  
+  const switchDescEdit = () => {
+    setIsDescEdit(!isDescEdit);
   };
 
   const renderEstimated = () => {
@@ -33,9 +34,23 @@ const Task = props => {
     );
   };
 
+  const renderDesc = () => {
+    return (
+      <div>
+        <b> {props.task.description}</b>
+      </div>
+    );
+  };
+
   const upDateEstimatedValue = () => {
-    setIsTextEdit(false);
+    setIsEstimatedEdit(false);
     props.updateEstimatedDays(props.task.id, newEstDays);
+  };
+
+  const upDateDescValue = () => {
+    setIsDescEdit(false);
+    //TODO: Need to make the callback
+    props.updateDescription(props.task.id, newDesc);
   };
 
   const editEstimated = () => {
@@ -53,6 +68,21 @@ const Task = props => {
     );
   };
 
+  const editDesc = () => {
+    return (
+      <div>
+        Estimated Days:{' '}
+        <input
+          type="text"
+          defaultValue={newDesc}
+          onChange={e => setNewDesc(e.target.value)}
+        />
+        <button onClick={switchDescEdit}>X</button>
+        <button onClick={upDateDescValue}>OK</button>
+      </div>
+    );
+  };
+
   return (
     <Draggable draggableId={props.task.id} index={props.index}>
       {(provided, snapshot) => (
@@ -63,13 +93,13 @@ const Task = props => {
           isDragging={snapshot.isDragging}
         >
           <div onDoubleClick={switchEstimatedEdit}>
-            {isTextEdit ? editEstimated() : renderEstimated()}
+            {isEstimatedEdit ? editEstimated() : renderEstimated()}
           </div>
-          <div>{props.task.description}</div>
+          <div onDoubleClick={switchDescEdit}>
+            {isDescEdit ? editDesc() : renderDesc()}
+         
+         </div>
 
-          <div onClick={clickAlert} style={{ textAlign: 'center' }}>
-            <FontAwesomeIcon icon={'edit'} transform="grow-8" />
-          </div>
         </Container>
       )}
     </Draggable>

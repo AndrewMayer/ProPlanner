@@ -49,13 +49,13 @@ const Milestone = props => {
         <Container {...provided.draggableProps} ref={provided.innerRef}>
           <MileTitle>
             <div {...provided.dragHandleProps}>{props.column.title}</div>
-            <div className="subtext">Total Days: {props.column.totalDays}</div>
             <div className="subtext">
               Start Date: {formattedDate(props.column.startDate)}
             </div>
             <div className="subtext">
               End Date: {formattedDate(props.column.endDate)}
             </div>
+            <div className="subtext">Total Days: {props.column.totalDays}</div>
           </MileTitle>
           <Droppable droppableId={props.column.id} type="task">
             {(provided, snapshot) => (
@@ -70,6 +70,7 @@ const Milestone = props => {
                     task={task}
                     index={index}
                     updateEstimatedDays={props.updateEstimatedDays}
+                    updateDescription={props.updateDescription}
                   />
                 ))}
                 {provided.placeholder}

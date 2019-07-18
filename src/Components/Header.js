@@ -35,7 +35,7 @@ const Header = ({ tasks, date, setDate }) => {
 
   let sum = 0;
   for (let key in tasks) {
-    sum += tasks[key].estDays;
+    sum += parseInt(tasks[key].estDays);
   }
 
   const generateEndDate = date => {
