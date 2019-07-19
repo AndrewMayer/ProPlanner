@@ -13,6 +13,7 @@ import {
 import initialData from '../initial-data';
 import Milestone from './Milestone';
 import Header from './Header';
+import { stringify } from 'querystring';
 
 library.add(faBars, faPlusCircle, faEdit);
 
@@ -75,7 +76,7 @@ class App extends React.Component {
     return;
   };
 
-  //Propagate estimated days change from task.
+  //Propagate estimated days change from task component.
   updateEstimatedDays = (changedId, newEstDays) => {
     const newState = {
       ...this.state
@@ -84,7 +85,7 @@ class App extends React.Component {
     this.setState(newState);
     return;
   };
-  
+
   //Propagate estimated days change from task.
   updateDescription = (changedId, newDesc) => {
     const newState = {
@@ -95,7 +96,29 @@ class App extends React.Component {
     return;
   };
 
-  //Beautiful Dnd Updates
+  createNewTask = columnId => {
+    const newState = {
+      ...this.state
+    };
+    const newId = 'item-' + newState.nextItem;
+    newState.nextItem++;
+
+    newState.tasks[newId] = {
+      id: [newId],
+      name: '',
+      description: '',
+      estDays: 0
+    };
+    console.log(newState.columns[columnId].taskIds);
+    newState.columns[columnId].taskIds.push(newId);
+    console.log(newState.columns[columnId].taskIds);
+
+    this.setState(newState);
+    // console.log(newState.tasks);
+    return;
+  };
+
+  //Beautiful Dnd UPDATES
 
   onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
@@ -216,6 +239,7 @@ class App extends React.Component {
                       mstoneDays={this.calcMstoneDays(columnId)}
                       updateEstimatedDays={this.updateEstimatedDays}
                       updateDescription={this.updateDescription}
+                      createNewTask={this.createNewTask}
                     />
                   );
                 })}

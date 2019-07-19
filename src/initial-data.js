@@ -4,6 +4,7 @@ let date = new Date('2019,05,01');
 
 const initialData = {
   startDate: date,
+  nextItem: 7,
   tasks: {
     'item-1': {
       id: 'item-1',

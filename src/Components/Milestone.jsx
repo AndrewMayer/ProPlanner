@@ -38,11 +38,11 @@ const AddTask = styled.div`
   justify-content: center;
 `;
 
-const clickAlert = () => {
-  alert(`You want a new task!`);
-};
-
 const Milestone = props => {
+  const newTask = () => {
+    props.createNewTask(props.column.id);
+  };
+
   return (
     <Draggable draggableId={props.column.id} index={props.index}>
       {provided => (
@@ -77,7 +77,7 @@ const Milestone = props => {
               </TaskList>
             )}
           </Droppable>
-          <AddTask onClick={clickAlert}>
+          <AddTask onClick={newTask}>
             <FontAwesomeIcon icon={'plus-circle'} transform="grow-10" />
           </AddTask>
         </Container>
