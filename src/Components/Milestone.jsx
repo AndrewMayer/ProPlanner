@@ -38,9 +38,27 @@ const AddTask = styled.div`
   justify-content: center;
 `;
 
+// const mstoneEmpty = this.props.tasks === [] ? true : false;
+
 const Milestone = props => {
   const newTask = () => {
     props.createNewTask(props.column.id);
+  };
+
+  //check if tasklist is
+  const mstoneEmpty = props.tasks === undefined || props.tasks.length == 0;
+
+  //if the tasklist is empty render the delete icon
+  const TrashIcon = ({ isMstoneEmpty }) => {
+    if (isMstoneEmpty) {
+      return (
+        <div>
+          <FontAwesomeIcon icon={'trash'} transform="grow-10" />
+        </div>
+      );
+    } else {
+      return <div />;
+    }
   };
 
   return (
@@ -71,6 +89,7 @@ const Milestone = props => {
                     index={index}
                     updateEstimatedDays={props.updateEstimatedDays}
                     updateDescription={props.updateDescription}
+                    deleteTask={props.deleteTask}
                   />
                 ))}
                 {provided.placeholder}
@@ -80,6 +99,12 @@ const Milestone = props => {
           <AddTask onClick={newTask}>
             <FontAwesomeIcon icon={'plus-circle'} transform="grow-10" />
           </AddTask>
+          <div>
+            <TrashIcon isMstoneEmpty={mstoneEmpty} />
+          </div>
+          {/* <AddTask>
+            <FontAwesomeIcon icon={'trash'} transform="grow-10" />
+          </AddTask> */}
         </Container>
       )}
     </Draggable>

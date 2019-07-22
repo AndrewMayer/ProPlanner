@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Container = styled.div`
   display: flex;
@@ -18,10 +19,14 @@ const Task = props => {
   const [newEstDays, setNewEstDays] = useState(props.task.estDays);
   const [newDesc, setNewDesc] = useState(props.task.description);
 
+  const removeTask = () => {
+    props.deleteTask(props.task.id);
+  };
+
   const switchEstimatedEdit = () => {
     setIsEstimatedEdit(!isEstimatedEdit);
   };
-  
+
   const switchDescEdit = () => {
     setIsDescEdit(!isDescEdit);
   };
@@ -49,7 +54,6 @@ const Task = props => {
 
   const upDateDescValue = () => {
     setIsDescEdit(false);
-    //TODO: Need to make the callback
     props.updateDescription(props.task.id, newDesc);
   };
 
@@ -97,9 +101,10 @@ const Task = props => {
           </div>
           <div onDoubleClick={switchDescEdit}>
             {isDescEdit ? editDesc() : renderDesc()}
-         
-         </div>
-
+          </div>
+          <div onDoubleClick={removeTask}>
+            <FontAwesomeIcon icon={'trash'} transform="grow-4" />
+          </div>
         </Container>
       )}
     </Draggable>

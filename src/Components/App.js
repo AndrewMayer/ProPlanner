@@ -8,14 +8,14 @@ import { arrSum, addDays } from '../dateFuncs.js';
 import {
   faBars,
   faPlusCircle,
-  faEdit
+  faEdit,
+  faTrash
 } from '@fortawesome/free-solid-svg-icons';
 import initialData from '../initial-data';
 import Milestone from './Milestone';
 import Header from './Header';
-import { stringify } from 'querystring';
 
-library.add(faBars, faPlusCircle, faEdit);
+library.add(faBars, faPlusCircle, faEdit, faTrash);
 
 const Container = styled.div`
   margin: 2%;
@@ -106,15 +106,33 @@ class App extends React.Component {
     newState.tasks[newId] = {
       id: [newId],
       name: '',
-      description: '',
+      description: 'New Task',
       estDays: 0
     };
-    console.log(newState.columns[columnId].taskIds);
     newState.columns[columnId].taskIds.push(newId);
-    console.log(newState.columns[columnId].taskIds);
 
     this.setState(newState);
     // console.log(newState.tasks);
+    return;
+  };
+
+  deleteTask = taskId => {
+    const newState = {
+      ...this.state
+    };
+
+    for (var key in newState.columns) {
+      if (newState.columns.hasOwnProperty(key)) {
+        const cleanArray = newState.columns[key].taskIds.filter(
+          singleId => singleId !== taskId
+        );
+        newState.columns[key].taskIds = cleanArray;
+      }
+    }
+
+    delete newState.tasks[taskId];
+    this.setState(newState);
+    console.log(newState.tasks);
     return;
   };
 
@@ -240,6 +258,7 @@ class App extends React.Component {
                       updateEstimatedDays={this.updateEstimatedDays}
                       updateDescription={this.updateDescription}
                       createNewTask={this.createNewTask}
+                      deleteTask={this.deleteTask}
                     />
                   );
                 })}
