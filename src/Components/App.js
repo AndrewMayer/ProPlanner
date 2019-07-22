@@ -132,8 +132,20 @@ class App extends React.Component {
 
     delete newState.tasks[taskId];
     this.setState(newState);
-    console.log(newState.tasks);
     return;
+  };
+
+  deleteMilestone = mstoneId => {
+    const newState = {
+      ...this.state
+    };
+    console.log('delete away!' + mstoneId);
+    const cleanArray = newState.columnOrder.filter(id => mstoneId !== id);
+    newState.columnOrder = cleanArray;
+
+    delete newState.columns[mstoneId];
+
+    this.setState(newState);
   };
 
   //Beautiful Dnd UPDATES
@@ -257,6 +269,7 @@ class App extends React.Component {
                       mstoneDays={this.calcMstoneDays(columnId)}
                       updateEstimatedDays={this.updateEstimatedDays}
                       updateDescription={this.updateDescription}
+                      deleteMilestone={this.deleteMilestone}
                       createNewTask={this.createNewTask}
                       deleteTask={this.deleteTask}
                     />

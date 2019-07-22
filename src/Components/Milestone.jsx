@@ -45,14 +45,18 @@ const Milestone = props => {
     props.createNewTask(props.column.id);
   };
 
-  //check if tasklist is
-  const mstoneEmpty = props.tasks === undefined || props.tasks.length == 0;
+  const deleteMilestone = () => {
+    console.log('fired');
+    props.deleteMilestone(props.column.id);
+  };
+
+  const mstoneEmpty = props.tasks === undefined || props.tasks.length === 0;
 
   //if the tasklist is empty render the delete icon
-  const TrashIcon = ({ isMstoneEmpty }) => {
+  const TrashIcon = ({ isMstoneEmpty, column }) => {
     if (isMstoneEmpty) {
       return (
-        <div>
+        <div onClick={deleteMilestone}>
           <FontAwesomeIcon icon={'trash'} transform="grow-10" />
         </div>
       );
@@ -100,7 +104,7 @@ const Milestone = props => {
             <FontAwesomeIcon icon={'plus-circle'} transform="grow-10" />
           </AddTask>
           <div>
-            <TrashIcon isMstoneEmpty={mstoneEmpty} />
+            <TrashIcon isMstoneEmpty={mstoneEmpty} column={props.column} />
           </div>
           {/* <AddTask>
             <FontAwesomeIcon icon={'trash'} transform="grow-10" />
