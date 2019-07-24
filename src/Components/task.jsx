@@ -49,7 +49,7 @@ const Task = props => {
 
   const upDateEstimatedValue = () => {
     setIsEstimatedEdit(false);
-    props.updateEstimatedDays(props.task.id, newEstDays);
+    props.updateEstimatedDays(props.task.id, newEstDays, props.columnId);
   };
 
   const upDateDescValue = () => {

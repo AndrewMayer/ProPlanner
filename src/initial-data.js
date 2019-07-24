@@ -5,6 +5,7 @@ let date = new Date('2019,05,01');
 const initialData = {
   startDate: date,
   nextItem: 7,
+  nestMstone: 4,
   tasks: {
     'item-1': {
       id: 'item-1',
@@ -45,24 +46,24 @@ const initialData = {
   },
 
   columns: {
-    mStoneA: {
-      id: 'mStoneA',
+    Mstone1: {
+      id: 'Mstone1',
       title: 'Version 01',
       taskIds: ['item-1', 'item-2', 'item-3'],
       totalDays: 10,
       startDate: new Date('2019,05,01'),
       endDate: addDays(Date(), 10)
     },
-    mStoneB: {
-      id: 'mStoneB',
+    mStone2: {
+      id: 'mStone2',
       title: 'Version 02',
       taskIds: ['item-4', 'item-5'],
       totalDays: 7,
       startDate: new Date('2019,05,22'),
       endDate: addDays(Date(), 7)
     },
-    mStoneC: {
-      id: 'mStoneC',
+    mStone3: {
+      id: 'mStone3',
       title: 'Final',
       taskIds: ['item-6'],
       totalDays: 3,
@@ -70,7 +71,7 @@ const initialData = {
       endDate: addDays(Date(), 3)
     }
   },
-  columnOrder: ['mStoneA', 'mStoneB', 'mStoneC']
+  columnOrder: ['Mstone1', 'mStone2', 'mStone3']
 };
 
 export default initialData;

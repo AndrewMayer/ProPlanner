@@ -29,8 +29,25 @@ const Title = styled.h1`
 class App extends React.Component {
   state = initialData;
 
-  clickAlert = () => {
-    alert(`You want a new milestone!`);
+  newMilestone = () => {
+    const newState = {
+      ...this.state
+    };
+    const newId = 'mStone' + newState.nextMstone;
+    newState.nextMstone++;
+
+    newState.columns[newId] = {
+      id: [newId],
+      title: '',
+      taskIds: [],
+      totalDays: 0,
+      startDate: new Date(),
+      endDate: new Date()
+    };
+    newState.columnOrder.push(newId);
+
+    this.setState(newState);
+    return;
   };
 
   calcMstoneDays = columnId => {
@@ -76,12 +93,18 @@ class App extends React.Component {
     return;
   };
 
-  //Propagate estimated days change from task component.
-  updateEstimatedDays = (changedId, newEstDays) => {
+  //Update estimated days change from task component.
+  updateEstimatedDays = (changedId, newEstDays, columnId) => {
     const newState = {
       ...this.state
     };
     newState.tasks[changedId].estDays = newEstDays;
+    let totalDays = this.calcMstoneDays(columnId);
+    newState.columns[columnId].totalDays = totalDays;
+    newState.columns[columnId].endDate = addDays(
+      newState.columns[columnId].startDate,
+      newEstDays
+    );
     this.setState(newState);
     return;
   };
@@ -104,7 +127,7 @@ class App extends React.Component {
     newState.nextItem++;
 
     newState.tasks[newId] = {
-      id: [newId],
+      id: newId,
       name: '',
       description: 'New Task',
       estDays: 0
@@ -139,7 +162,6 @@ class App extends React.Component {
     const newState = {
       ...this.state
     };
-    console.log('delete away!' + mstoneId);
     const cleanArray = newState.columnOrder.filter(id => mstoneId !== id);
     newState.columnOrder = cleanArray;
 
@@ -183,6 +205,7 @@ class App extends React.Component {
     const home = this.state.columns[source.droppableId];
     const foreign = this.state.columns[destination.droppableId];
 
+    //Reorder tasks in same milestone
     if (home === foreign) {
       const newTaskIds = Array.from(home.taskIds);
       newTaskIds.splice(source.index, 1);
@@ -208,7 +231,7 @@ class App extends React.Component {
       return;
     }
 
-    //Moving from one Milestone to another
+    //Moving task from one Milestone to another
     const homeTaskIds = Array.from(home.taskIds);
     homeTaskIds.splice(source.index, 1);
     const newHome = {
@@ -247,9 +270,6 @@ class App extends React.Component {
           date={new Date(this.state.startDate)}
           setDate={this.handleNewDate}
         />
-        <div onClick={this.clickAlert} style={{ textAlign: 'center' }}>
-          <FontAwesomeIcon icon={'plus-circle'} transform="grow-12" />
-        </div>
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="all-columns" type="column">
             {provided => (
@@ -280,6 +300,9 @@ class App extends React.Component {
             )}
           </Droppable>
         </DragDropContext>
+        <div onClick={this.newMilestone} style={{ textAlign: 'center' }}>
+          <FontAwesomeIcon icon={'plus-circle'} transform="grow-12" />
+        </div>
       </div>
     );
   }

@@ -46,7 +46,6 @@ const Milestone = props => {
   };
 
   const deleteMilestone = () => {
-    console.log('fired');
     props.deleteMilestone(props.column.id);
   };
 
@@ -56,7 +55,7 @@ const Milestone = props => {
   const TrashIcon = ({ isMstoneEmpty, column }) => {
     if (isMstoneEmpty) {
       return (
-        <div onClick={deleteMilestone}>
+        <div onClick={deleteMilestone} style={{ textAlign: 'right' }}>
           <FontAwesomeIcon icon={'trash'} transform="grow-10" />
         </div>
       );
@@ -94,6 +93,7 @@ const Milestone = props => {
                     updateEstimatedDays={props.updateEstimatedDays}
                     updateDescription={props.updateDescription}
                     deleteTask={props.deleteTask}
+                    columnId={props.column.id}
                   />
                 ))}
                 {provided.placeholder}
@@ -106,9 +106,6 @@ const Milestone = props => {
           <div>
             <TrashIcon isMstoneEmpty={mstoneEmpty} column={props.column} />
           </div>
-          {/* <AddTask>
-            <FontAwesomeIcon icon={'trash'} transform="grow-10" />
-          </AddTask> */}
         </Container>
       )}
     </Draggable>
