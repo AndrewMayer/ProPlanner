@@ -95,7 +95,7 @@ class App extends React.Component {
 
   //Update estimated days change from task component.
   updateEstimatedDays = (changedId, newEstDays, columnId) => {
-    const newState = {
+    let newState = {
       ...this.state
     };
     newState.tasks[changedId].estDays = newEstDays;
@@ -105,6 +105,7 @@ class App extends React.Component {
       newState.columns[columnId].startDate,
       newEstDays
     );
+    newState = this.mStoneRestart(newState);
     this.setState(newState);
     return;
   };
@@ -140,7 +141,7 @@ class App extends React.Component {
   };
 
   deleteTask = taskId => {
-    const newState = {
+    let newState = {
       ...this.state
     };
 
@@ -154,6 +155,8 @@ class App extends React.Component {
     }
 
     delete newState.tasks[taskId];
+
+    newState = this.mStoneRestart(newState);
     this.setState(newState);
     return;
   };
@@ -194,10 +197,11 @@ class App extends React.Component {
       //TODO: Use the newColumnOrder array to determine the new values for start and completion dates for all milestones.
       //Map through newColumnOrder and add days then calculate start dates.
 
-      const newState = {
+      let newState = {
         ...this.state,
         columnOrder: newColumnOrder
       };
+      newState = this.mStoneRestart(newState);
       this.setState(newState);
       return;
     }
