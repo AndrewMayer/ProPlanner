@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { formattedDate } from '../dateFuncs.js';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Task from './Task';
+import Task from './Task.jsx';
 
 const Container = styled.div`
   margin: 8px auto;
