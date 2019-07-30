@@ -18,8 +18,10 @@ import Header from './Header';
 library.add(faBars, faPlusCircle, faEdit, faTrash);
 
 const Container = styled.div`
-  margin: 2%;
-  // display: flex;
+  margin: 0vw 20vw;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 `;
 
 const Title = styled.h1`

@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './Task.css';
 
 const Container = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  padding: 8px;
+  margin-bottom: 8px;
   background-color: ${props => (props.isDragging ? 'lightblue' : 'white')};
 `;
 
@@ -77,10 +82,13 @@ const Task = props => {
         Estimated Days:{' '}
         <input
           type="text"
+          size="35"
           defaultValue={newDesc}
           onChange={e => setNewDesc(e.target.value)}
         />
+        {`  `}
         <button onClick={switchDescEdit}>X</button>
+        {`  `}
         <button onClick={upDateDescValue}>OK</button>
       </div>
     );
@@ -95,16 +103,20 @@ const Task = props => {
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
         >
-          <div className="container">
-            <div onDoubleClick={switchEstimatedEdit}>
-              {isEstimatedEdit ? editEstimated() : renderEstimated()}
-            </div>
-            <div onDoubleClick={switchDescEdit}>
-              {isDescEdit ? editDesc() : renderDesc()}
-            </div>
-            <div onDoubleClick={removeTask}>
-              <FontAwesomeIcon icon={'trash'} transform="grow-4" />
-            </div>
+          <div
+            style={{ width: '25%', textAlign: 'left' }}
+            onDoubleClick={switchEstimatedEdit}
+          >
+            {isEstimatedEdit ? editEstimated() : renderEstimated()}
+          </div>
+          <div
+            style={{ width: '73%', textAlign: 'left' }}
+            onDoubleClick={switchDescEdit}
+          >
+            {isDescEdit ? editDesc() : renderDesc()}
+          </div>
+          <div style={{ textAlign: 'right' }} onDoubleClick={removeTask}>
+            <FontAwesomeIcon icon={'trash'} transform="grow-4" />
           </div>
         </Container>
       )}
