@@ -7,7 +7,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const MainHeader = styled.div`
-  border-radius: 2px;
+  border-radius: 9px;
   margin: 3vh auto 3vh;
   padding: 1vh 1vw;
   width: 70vw;

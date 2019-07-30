@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 60vw;
   border: 1px solid lightgrey;
   background-color: #ccc;
-  border-radius: 2px;
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
 `;
@@ -39,7 +39,7 @@ const AddTask = styled.div`
 `;
 
 const TrashCorner = styled.div`
-padding: 0px 10px 10px 0px;
+  padding: 0px 10px 10px 0px;
 `;
 
 // const mstoneEmpty = this.props.tasks === [] ? true : false;

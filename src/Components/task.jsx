@@ -7,15 +7,20 @@ const Container = styled.div`
   display: flex;
   justify-content: flex-start;
   border: 1px solid lightgrey;
-  border-radius: 2px;
+  border-radius: 6px;
   padding: 8px;
   margin-bottom: 8px;
   background-color: ${props => (props.isDragging ? 'lightblue' : 'white')};
 `;
 
+const IconWrap = styled.div`
+  margin-right: 1vw;
+`;
+
 const Task = props => {
-  const [isDescEdit, setIsDescEdit] = useState(false);
-  const [isEstimatedEdit, setIsEstimatedEdit] = useState(false);
+  const [isEdit, setEdit] = useState(false);
+  // const [isDescEdit, setIsDescEdit] = useState(false);
+  // const [isEstimatedEdit, setIsEstimatedEdit] = useState(false);
   const [newEstDays, setNewEstDays] = useState(props.task.estDays);
   const [newDesc, setNewDesc] = useState(props.task.description);
 
@@ -23,13 +28,16 @@ const Task = props => {
     props.deleteTask(props.task.id);
   };
 
-  const switchEstimatedEdit = () => {
-    setIsEstimatedEdit(!isEstimatedEdit);
+  const switchEdit = () => {
+    setEdit(!isEdit);
   };
+  // const switchEstimatedEdit = () => {
+  //   setIsEstimatedEdit(!isEstimatedEdit);
+  // };
 
-  const switchDescEdit = () => {
-    setIsDescEdit(!isDescEdit);
-  };
+  // const switchDescEdit = () => {
+  //   setIsDescEdit(!isDescEdit);
+  // };
 
   const renderEstimated = () => {
     return (
@@ -48,13 +56,12 @@ const Task = props => {
   };
 
   const upDateEstimatedValue = () => {
-    setIsEstimatedEdit(false);
+    setEdit(false);
     props.updateEstimatedDays(props.task.id, newEstDays, props.columnId);
   };
 
   const upDateDescValue = () => {
-    setIsDescEdit(false);
-
+    setEdit(false);
     props.updateDescription(props.task.id, newDesc);
   };
 
@@ -69,7 +76,7 @@ const Task = props => {
           onChange={e => setNewEstDays(e.target.value)}
         />
         {`  `}
-        <button onClick={switchEstimatedEdit}>X</button>
+        <button onClick={switchEdit}>X</button>
         {`  `}
         <button onClick={upDateEstimatedValue}>OK</button>
       </div>
@@ -87,7 +94,7 @@ const Task = props => {
           onChange={e => setNewDesc(e.target.value)}
         />
         {`  `}
-        <button onClick={switchDescEdit}>X</button>
+        <button onClick={switchEdit}>X</button>
         {`  `}
         <button onClick={upDateDescValue}>OK</button>
       </div>
@@ -103,17 +110,18 @@ const Task = props => {
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
         >
-          <div
-            style={{ width: '25%', textAlign: 'left' }}
-            onDoubleClick={switchEstimatedEdit}
-          >
-            {isEstimatedEdit ? editEstimated() : renderEstimated()}
+          <IconWrap>
+            <FontAwesomeIcon
+              onClick={switchEdit}
+              icon={'edit'}
+              transform="grow-4"
+            />
+          </IconWrap>
+          <div style={{ width: '25%', textAlign: 'left' }}>
+            {isEdit ? editEstimated() : renderEstimated()}
           </div>
-          <div
-            style={{ width: '73%', textAlign: 'left' }}
-            onDoubleClick={switchDescEdit}
-          >
-            {isDescEdit ? editDesc() : renderDesc()}
+          <div style={{ width: '73%', textAlign: 'left' }}>
+            {isEdit ? editDesc() : renderDesc()}
           </div>
           <div style={{ textAlign: 'right' }} onDoubleClick={removeTask}>
             <FontAwesomeIcon icon={'trash'} transform="grow-4" />
