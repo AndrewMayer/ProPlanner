@@ -2,14 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './Task.css';
 
 const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
-  border: 1px solid lightgrey;
-  border-radius: 2px;
-  padding: 8px;
-  margin-bottom: 8px;
   background-color: ${props => (props.isDragging ? 'lightblue' : 'white')};
 `;
 
@@ -54,6 +49,7 @@ const Task = props => {
 
   const upDateDescValue = () => {
     setIsDescEdit(false);
+
     props.updateDescription(props.task.id, newDesc);
   };
 
@@ -62,11 +58,14 @@ const Task = props => {
       <div>
         Estimated Days:{' '}
         <input
-          type="number"
+          type="text"
+          size="3"
           defaultValue={newEstDays}
           onChange={e => setNewEstDays(e.target.value)}
         />
+        {`  `}
         <button onClick={switchEstimatedEdit}>X</button>
+        {`  `}
         <button onClick={upDateEstimatedValue}>OK</button>
       </div>
     );
@@ -96,14 +95,16 @@ const Task = props => {
           ref={provided.innerRef}
           isDragging={snapshot.isDragging}
         >
-          <div onDoubleClick={switchEstimatedEdit}>
-            {isEstimatedEdit ? editEstimated() : renderEstimated()}
-          </div>
-          <div onDoubleClick={switchDescEdit}>
-            {isDescEdit ? editDesc() : renderDesc()}
-          </div>
-          <div onDoubleClick={removeTask}>
-            <FontAwesomeIcon icon={'trash'} transform="grow-4" />
+          <div className="container">
+            <div onDoubleClick={switchEstimatedEdit}>
+              {isEstimatedEdit ? editEstimated() : renderEstimated()}
+            </div>
+            <div onDoubleClick={switchDescEdit}>
+              {isDescEdit ? editDesc() : renderDesc()}
+            </div>
+            <div onDoubleClick={removeTask}>
+              <FontAwesomeIcon icon={'trash'} transform="grow-4" />
+            </div>
           </div>
         </Container>
       )}

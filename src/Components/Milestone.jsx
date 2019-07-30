@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { formattedDate } from '../dateFuncs.js';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Task from './task';
+import Task from './Task';
 
 const Container = styled.div`
   margin: 8px auto;
@@ -38,6 +38,10 @@ const AddTask = styled.div`
   justify-content: center;
 `;
 
+const TrashCorner = styled.div`
+padding: 0px 10px 10px 0px;
+`;
+
 // const mstoneEmpty = this.props.tasks === [] ? true : false;
 
 const Milestone = props => {
@@ -55,9 +59,9 @@ const Milestone = props => {
   const TrashIcon = ({ isMstoneEmpty, column }) => {
     if (isMstoneEmpty) {
       return (
-        <div onClick={deleteMilestone} style={{ textAlign: 'right' }}>
+        <TrashCorner onClick={deleteMilestone} style={{ textAlign: 'right' }}>
           <FontAwesomeIcon icon={'trash'} transform="grow-10" />
-        </div>
+        </TrashCorner>
       );
     } else {
       return <div />;
